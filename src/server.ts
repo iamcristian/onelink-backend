@@ -1,10 +1,10 @@
 import "dotenv/config";
 import express from "express";
-import router from "./router";
-import routerAuth from "./routerAuth";
 import { corsConfig } from "./config/cors";
 import cors from "cors";
 import { connectDB } from "./config/db";
+import router from "./routers/router";
+import routerAuth from "./routers/routerAuth";
 
 // Connect to the database MongoDB
 connectDB();
