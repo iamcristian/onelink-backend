@@ -3,6 +3,9 @@ import express from "express";
 import router from "./router";
 import { corsConfig } from "./config/cors";
 import cors from "cors";
+import { connectDB } from "./config/db";
+
+connectDB();
 
 const app = express();
 
