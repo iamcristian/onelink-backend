@@ -12,10 +12,36 @@ import { searchByHandleSchema, updateUserSchema } from "../schemas/userSchema";
 
 const router = Router();
 
-// GET /api/user - Get user with authentication JWT
+/**
+ * @swagger
+ * /api/user:
+ *   get:
+ *     summary: Get user with authentication JWT
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user
+ */
 router.get("/user", authenticate, getUser);
 
-// PATCH /api/user - Update user profile
+/**
+ * @swagger
+ * /api/user:
+ *   patch:
+ *     summary: Update user profile
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/updateUserSchema'
+ *     responses:
+ *       200:
+ *         description: User profile updated successfully
+ *       400:
+ *         description: Handle already exists
+ *       500:
+ *         description: Server error while updating profile
+ */
 router.patch(
   "/user",
   validateSchema(updateUserSchema),
@@ -23,17 +49,74 @@ router.patch(
   updateProfile
 );
 
-// POST /api/user/image - Upload user image
+/**
+ * @swagger
+ * /api/user/image:
+ *   post:
+ *     summary: Upload user image
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: User image uploaded successfully
+ *       500:
+ *         description: Server error while uploading image
+ */
 router.post("/user/image", authenticate, uploadImage);
 
-// GET /api/user/:handle - Get user by handle
+/**
+ * @swagger
+ * /api/user/{handle}:
+ *   get:
+ *     summary: Get user by handle
+ *     parameters:
+ *       - in: path
+ *         name: handle
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user by handle
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error while fetching user by handle
+ */
 router.get("/user/:handle", getUserByHandle);
 
-// POST /api/user/search - Search user by handle
+/**
+ * @swagger
+ * /api/user/search:
+ *   post:
+ *     summary: Search user by handle
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/searchByHandleSchema'
+ *     responses:
+ *       200:
+ *         description: Successfully searched user by handle
+ *       400:
+ *         description: Validation error
+ *       500:
+ *         description: Server error during search
+ */
 router.post(
   "/user/search",
   validateSchema(searchByHandleSchema),
   searchByHandle
 );
+
 
 export default router;

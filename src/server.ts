@@ -5,11 +5,16 @@ import cors from "cors";
 import { connectDB } from "./config/db";
 import router from "./routers/router";
 import routerAuth from "./routers/routerAuth";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger";
 
 // Connect to the database MongoDB
 connectDB();
 
 const app = express();
+
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Enable CORS
 app.use(cors(corsConfig));
