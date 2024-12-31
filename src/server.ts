@@ -7,6 +7,8 @@ import router from "./routers/router";
 import routerAuth from "./routers/routerAuth";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger";
+import apiLimiter from "./config/rateLimit";
+import helmet from "helmet";
 
 // Connect to the database MongoDB
 connectDB();
@@ -22,6 +24,13 @@ app.use(cors(corsConfig));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
+// Secure the app by setting various HTTP headers
+app.use(helmet());
+
+// Rate limiter
+app.use("/", apiLimiter);
+
+// Define the routes
 app.use("/", routerAuth);
 app.use("/api", router);
 
