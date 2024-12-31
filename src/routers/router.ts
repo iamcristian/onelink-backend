@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { getUser } from "../handlers/user";
 import { authenticate } from "../middleware/auth";
-import { updateProfile, uploadImage } from "../handlers/profile";
+import { getUser, getUserByHandle, searchByHandle, updateProfile, uploadImage } from "../handlers/profile";
 import { validateSchema } from "../middleware/validateSchema";
 import { updateUserSchema } from "../schemas/userSchema";
 
@@ -18,6 +17,13 @@ router.patch(
   updateProfile
 );
 
+// POST /api/user/image - Upload user image
 router.post("/user/image", authenticate, uploadImage);
+
+// GET /api/user/:handle - Get user by handle
+router.get("/user/:handle", getUserByHandle);
+
+// POST /api/user/search - Search user by handle
+router.post("/user/search", searchByHandle);
 
 export default router;

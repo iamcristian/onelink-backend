@@ -5,6 +5,10 @@ import formidable from "formidable";
 import { v4 as uuid } from "uuid";
 import cloudinary from "../config/cloudinary";
 
+export const getUser = async (req: Request, res: Response) => {
+  res.json(req.user);
+};
+
 export const updateProfile = async (req: Request, res: Response) => {
   try {
     // Check if handle already exists
@@ -49,5 +53,33 @@ export const uploadImage = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).send({ message: "Upload Image error" });
+  }
+};
+
+export const getUserByHandle = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findOne({ handle: req.params.handle }).select(
+      "-_id -__v -password -email"
+    );
+    if (!user) {
+      res.status(404).send({ message: "User not found" });
+      return;
+    }
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ message: "Get User By Handle error" });
+  }
+};
+
+export const searchByHandle = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findOne({ handle: req.body.handle });
+    if (user) {
+      res.status(409).send({ message: "User already exists" });
+      return;
+    }
+    res.send({ message: `${req.body.handle} is available` });
+  } catch (error) {
+    res.status(500).send({ message: "Search By Handle error" });
   }
 };
