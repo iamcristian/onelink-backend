@@ -1,8 +1,14 @@
 import { Router } from "express";
 import { authenticate } from "../middleware/auth";
-import { getUser, getUserByHandle, searchByHandle, updateProfile, uploadImage } from "../handlers/profile";
+import {
+  getUser,
+  getUserByHandle,
+  searchByHandle,
+  updateProfile,
+  uploadImage,
+} from "../handlers/profile";
 import { validateSchema } from "../middleware/validateSchema";
-import { updateUserSchema } from "../schemas/userSchema";
+import { searchByHandleSchema, updateUserSchema } from "../schemas/userSchema";
 
 const router = Router();
 
@@ -24,6 +30,10 @@ router.post("/user/image", authenticate, uploadImage);
 router.get("/user/:handle", getUserByHandle);
 
 // POST /api/user/search - Search user by handle
-router.post("/user/search", searchByHandle);
+router.post(
+  "/user/search",
+  validateSchema(searchByHandleSchema),
+  searchByHandle
+);
 
 export default router;

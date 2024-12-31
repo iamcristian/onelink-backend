@@ -28,3 +28,6 @@ export const updateUserSchema = z.object({
   links: z.string().optional(),
 });
 
+export const searchByHandleSchema = userSchema.pick({
+  handle: true,
+})
