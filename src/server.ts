@@ -7,6 +7,8 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger";
 import routerAuth from "./routes/auth.routes";
 import router from "./routes/user.routes";
+import helmet from "helmet";
+import apiLimiter from "./config/rateLimit";
 
 // Connect to the database MongoDB
 connectDB();
