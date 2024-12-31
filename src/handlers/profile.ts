@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import slug from "slug";
 import User from "../models/User";
+import formidable from "formidable";
+import { v4 as uuid } from "uuid";
+import cloudinary from "../config/cloudinary";
 
 export const updateProfile = async (req: Request, res: Response) => {
   try {
@@ -19,5 +22,32 @@ export const updateProfile = async (req: Request, res: Response) => {
     res.send(req.user);
   } catch (error) {
     res.status(500).send({ message: "Update Profile error" });
+  }
+};
+
+export const uploadImage = async (req: Request, res: Response) => {
+  const form = formidable({ multiples: false });
+
+  try {
+    form.parse(req, (error, fields, files) => {
+      cloudinary.uploader.upload(
+        files.file && files.file[0] ? files.file[0].filepath : "",
+        { public_id: uuid() },
+        async function (error, result) {
+          if (error) {
+            res.status(500).send({ message: "Upload Image error" });
+            return;
+          }
+
+          if (result) {
+            req.user!.image = result.secure_url;
+            await req.user!.save();
+            res.send(req.user);
+          }
+        }
+      );
+    });
+  } catch (error) {
+    res.status(500).send({ message: "Upload Image error" });
   }
 };

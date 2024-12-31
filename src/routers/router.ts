@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getUser } from "../handlers/user";
 import { authenticate } from "../middleware/auth";
-import { updateProfile } from "../handlers/profile";
+import { updateProfile, uploadImage } from "../handlers/profile";
 import { validateSchema } from "../middleware/validateSchema";
 import { updateUserSchema } from "../schemas/userSchema";
 
@@ -18,6 +18,6 @@ router.patch(
   updateProfile
 );
 
-
+router.post("/user/image", authenticate, uploadImage);
 
 export default router;
