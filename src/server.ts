@@ -22,6 +22,13 @@ app.use(cors(corsConfig));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
+// Secure the app by setting various HTTP headers
+app.use(helmet());
+
+// Rate limiter
+app.use("/", apiLimiter);
+
+// Define the routes
 app.use("/", routerAuth);
 app.use("/api", router);
 

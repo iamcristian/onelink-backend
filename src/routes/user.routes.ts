@@ -32,8 +32,6 @@ router.get("/user", authenticate, getUser);
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/updateUserSchema'
  *     responses:
  *       200:
  *         description: User profile updated successfully
@@ -58,12 +56,6 @@ router.patch(
  *       required: true
  *       content:
  *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               file:
- *                 type: string
- *                 format: binary
  *     responses:
  *       200:
  *         description: User image uploaded successfully
@@ -81,8 +73,6 @@ router.post("/user/image", authenticate, uploadImage);
  *       - in: path
  *         name: handle
  *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Successfully retrieved user by handle
@@ -102,8 +92,6 @@ router.get("/user/:handle", getUserByHandle);
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/searchByHandleSchema'
  *     responses:
  *       200:
  *         description: Successfully searched user by handle
@@ -117,6 +105,5 @@ router.post(
   validateSchema(searchByHandleSchema),
   searchByHandle
 );
-
 
 export default router;

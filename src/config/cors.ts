@@ -10,4 +10,6 @@ export const corsConfig: CorsOptions = {
     if (whiteList.includes(origin)) callback(null, true);
     else callback(new Error("Not allowed by CORS"));
   },
+  methods: "GET,PUT,PATCH,POST,DELETE",
+  credentials: true,
 };
