@@ -7,6 +7,16 @@ const routerAuth = Router();
 
 /**
  * @swagger
+ * /api/auth/health:
+ * get:
+ * summary: Health check
+ */
+routerAuth.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", timeStamp: new Date() });
+});
+
+/**
+ * @swagger
  * /api/auth/register:
  * post:
  * summary: Register user
@@ -15,8 +25,6 @@ const routerAuth = Router();
  * required: true
  * content:
  * application/json:
- * schema:
- * $ref: '#/components/schemas/registerUserSchema'
  */
 routerAuth.post(
   "/auth/register",
@@ -34,8 +42,6 @@ routerAuth.post(
  * required: true
  * content:
  * application/json:
- * schema:
- * $ref: '#/components/schemas/loginUserSchema'
  */
 routerAuth.post("/auth/login", validateSchema(loginUserSchema), login);
 

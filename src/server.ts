@@ -3,10 +3,10 @@ import express from "express";
 import { corsConfig } from "./config/cors";
 import cors from "cors";
 import { connectDB } from "./config/db";
-import router from "./routers/router";
-import routerAuth from "./routers/routerAuth";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger";
+import routerAuth from "./routes/auth.routes";
+import router from "./routes/user.routes";
 
 // Connect to the database MongoDB
 connectDB();
