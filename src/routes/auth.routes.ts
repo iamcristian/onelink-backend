@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createAccount, login } from "../handlers/auth";
+import { createAccount, login, verifyToken } from "../handlers/auth";
 import { validateSchema } from "../middleware/validateSchema";
 import { loginUserSchema, registerUserSchema } from "../schemas/userSchema";
 
@@ -44,5 +44,14 @@ routerAuth.post(
  * application/json:
  */
 routerAuth.post("/auth/login", validateSchema(loginUserSchema), login);
+
+/**
+ * @swagger
+ * /api/auth/verify-token:
+ * get:
+ * summary: Verify token
+ * description: Verify token
+ */
+routerAuth.get("/auth/verify-token", verifyToken);
 
 export default routerAuth;

@@ -2,7 +2,7 @@ import slug from "slug";
 import { Request, Response } from "express";
 import User from "../models/User";
 import { hashPassword, checkPassword } from "../utils/auth";
-import { generateJWT } from "../utils/jwt";
+import { generateJWT, verifyJWT } from "../utils/jwt";
 
 export const createAccount = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -53,5 +53,24 @@ export const login = async (req: Request, res: Response) => {
   // Generate token
   const token = generateJWT({ id: user._id });
 
-  res.status(200).json({ token });
+  res.status(200).json({ token, user: { email: user.email } });
 };
+
+// verify token
+export const verifyToken = (req: Request, res: Response) => { 
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    res.status(400).json({ message: "Token is required" });
+    return;
+  }
+
+  const decoded = verifyJWT(token);
+
+  if (!decoded) {
+    res.status(400).json({ message: "Invalid or expired token" });
+    return;
+  }
+
+  res.status(200).json({message: "Token is valid", userId: decoded.id});
+}
