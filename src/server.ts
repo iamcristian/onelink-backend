@@ -25,10 +25,10 @@ app.use(cors(corsConfig));
 app.use(express.json());
 
 // Secure the app by setting various HTTP headers
-app.use(helmet());
+// app.use(helmet());
 
 // Rate limiter
-app.use("/", apiLimiter);
+// app.use("/", apiLimiter);
 
 // Define the routes
 app.use("/", routerAuth);
